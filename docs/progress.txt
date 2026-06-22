@@ -1,0 +1,22 @@
+GymSync progress log
+====================
+
+2026-06-22  Session A — Scaffold
+  - Vite + React + TS PWA scaffolded with /phone and /tv routes.
+
+2026-06-22  Session B — Core data model
+  - Defined engine + library types: Exercise with typed tag dimensions
+    (trains, loads, equipment, impact, position, movementPattern,
+    cardioIntensity, met, clip); Block/Circuit/Workout with timing defaults +
+    overrides; SessionResult.
+  - Added a ~6-exercise seed; verified via tsc + runtime import.
+
+2026-06-22  Session C — Tagged exercise library
+  - Expanded seed to 20 fully-tagged exercises (bodyweight + basic equipment).
+  - Query functions in src/library/queries.ts: filterByEquipment (incl.
+    no-equipment mode), filterByTarget (reads trains, primary/secondary),
+    excludeByLoad (derives exclusions from positive loads tags — joints, grip
+    threshold, load type).
+  - Similar-exercise lookup (src/library/similar.ts) for swaps, tag-scored.
+  - Wired up Vitest (npm test); 10 passing tests, including: mountain climbers
+    absent from an arm-target search but removed by an avoid-elbow-load filter.

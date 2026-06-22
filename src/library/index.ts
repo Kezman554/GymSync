@@ -13,3 +13,11 @@ export type {
 } from './tags';
 export type { Exercise } from './exercise';
 export { seedExercises, seedExerciseById } from './seed';
+export {
+  excludeByLoad,
+  filterByEquipment,
+  filterByTarget,
+} from './queries';
+export type { LoadExclusion, TargetOptions } from './queries';
+export { findSimilar, similarityScore } from './similar';
+export type { SimilarOptions } from './similar';
