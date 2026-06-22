@@ -20,3 +20,15 @@ GymSync progress log
   - Similar-exercise lookup (src/library/similar.ts) for swaps, tag-scored.
   - Wired up Vitest (npm test); 10 passing tests, including: mountain climbers
     absent from an arm-target search but removed by an avoid-elbow-load filter.
+
+2026-06-22  Session D — Interval/circuit engine
+  - Framework-agnostic, tick-driven state machine (src/engine/engine.ts) plus a
+    timeline flattener (src/engine/timeline.ts) that expands circuits/rounds and
+    inserts the right rests (between-blocks / between-rounds / after-circuit;
+    no leading/trailing rest). Timed blocks count down + auto-advance; reps
+    blocks wait for done(). Global timing with per-block overrides (timed value
+    falls back to defaults.work).
+  - Controls: start, pause, resume, skip, back, addTime, end. Emits EngineState
+    (phase, exercise, work/rest, remaining, round x/y, up-next) via subscribe().
+  - Made Block.value optional (timed override of defaults.work).
+  - 25 passing tests advancing a timed+rep workout through rounds to completion.

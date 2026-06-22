@@ -13,8 +13,13 @@ export interface Block {
   /** References Exercise.id in the library. */
   exerciseId: string;
   mode: BlockMode;
-  /** Seconds when `mode` is 'timed', rep count when 'reps'. */
-  value: number;
+  /**
+   * Seconds when `mode` is 'timed', rep target when `mode` is 'reps'. Optional:
+   * a timed block that omits it inherits the workout's `defaults.work`, so
+   * `value` here acts as a per-block override of the global work time. For a
+   * reps block it's the (optional, display-only) rep target.
+   */
+  value?: number;
   /** Rest in seconds after this block; overrides the workout default. */
   restAfter?: number;
 }
