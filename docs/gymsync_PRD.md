@@ -1,8 +1,12 @@
 GymSync - Product Requirements Document
 
-Version: 0.1
-Last Updated: 22 June 2026
+Version: 0.2
+Last Updated: 5 July 2026
 GitHub: https://github.com/Kezman554/GymSync.git
+
+Changelog
+- v0.2 (5 Jul 2026): records the 4 July pre-build decisions (personal-first PWA on the Pi, male+female avatar on shared topology, 3D rig, content pipeline) and adds the runtime muscle-highlighting feature. Supersedes the single-avatar / future-sale framing in v0.1.
+- v0.1 (22 Jun 2026): initial PRD.
 
 Overview
 
@@ -16,7 +20,7 @@ Goals
 Provide one configurable engine covering strength, HIIT, and cardio
 Let users build, customise, and run workouts with animated demos on a TV
 Sync a phone (controller/logger) to a TV display on hardware the user already owns
-Architect a web receiver that ports to Fire TV / Cast later, enabling a future sale
+Ship personal-first as a PWA hosted on the kitchen Pi; keep the web receiver portable to Fire TV / Cast as a preserved future-sale option, not an MVP goal
 
 
 Target Users
@@ -60,7 +64,8 @@ Room-code pairing; phone↔TV sync over a WebSocket relay
 Avatar
 
 
-Single rigged 3D avatar playing per-exercise animation clips
+Two rigged figures (one male, one female) on a single shared topology and skeleton, Mixamo auto-rigged so every animation clip plays on both. Palette: white body, light grey tight-fitting kit (painted onto the mesh, not separate cloth), black hair
+Runtime muscle highlighting: muscle-group zones tint red to show the current exercise's target, driven entirely by each exercise's existing trains tags — primary bright, secondary dimmer, untrained zones neutral. Renders in Three.js on both figures via the shared topology (one implementation). Requires a static trains-value → muscle-zone lookup (authored once, not per exercise) and zones painted as individually addressable regions during avatar build. No per-exercise artwork
 
 
 Scope
@@ -69,7 +74,8 @@ In Scope
 
 
 Engine (timed + rep-count), tagged library, build-your-own + presets
-Single fixed 3D avatar with animation clips
+Two shared-topology 3D figures (male + female) with animation clips and runtime muscle highlighting
+Personal-first PWA hosted on the kitchen Pi
 TV display + room-code pairing + relay (Firestick Silk browser / Pi Chromium)
 MET calorie estimate; local-first storage of workouts and profile
 
@@ -86,9 +92,12 @@ Yoga/pilates; AI-coach features; heart-rate sensors
 Future Considerations
 
 
-Strength logging + progression; randomiser; avatar customisation
-Accounts/sync, native Fire TV app, Alfred integration (vault/webhook), HR sensors
+Strength mode (sets×reps×weight) + local-first logging & progression
+Randomiser / workout generator (constrained, balanced sampling)
+Alfred integration — session webhook → vault workout note
+HR strap via Web Bluetooth (Android Chrome)
 AR pose-estimation form matching (aligns with online-physio domain)
+Commercial path (someday): personal-first for now, but the app is one Capacitor step from a store; avatar customiser and accounts/cloud sync are the levers if it ever goes sellable — preserved, not discarded
 
 
 Technical
@@ -114,6 +123,7 @@ Constraints
 The target VIDAA TV has no Google Cast; MVP targets a controllable browser (Firestick Silk / Pi Chromium) via a room-code URL
 Web Bluetooth (future HR) is unsupported on iOS Safari, affecting later native decisions
 Animation content (clips per exercise) is the main ongoing effort; stream/cache assets, never bundle video
+Content pipeline: Tier 1 Mixamo harvest → Tier 2 video-mocap scaling (Rokoko / DeepMotion class) → Tier 3 Blender for holds & repairs; MVP library 30–50 dogfooded exercises, growing at minutes-per-exercise afterwards
 
 
 Project Structure
@@ -144,4 +154,5 @@ Success Criteria
  TV shows current exercise, animated demo, countdown, round counter, and up-next with audio cues
  Estimated calorie burn is shown from an age/sex/weight profile
  Custom workouts and profile persist locally across sessions
+ Muscle zones tint correctly from an exercise's trains tags (primary/secondary) on both the male and female figures
  Runs on the Firestick Silk browser and the Pi + monitor
