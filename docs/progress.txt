@@ -32,3 +32,17 @@ GymSync progress log
     (phase, exercise, work/rest, remaining, round x/y, up-next) via subscribe().
   - Made Block.value optional (timed override of defaults.work).
   - 25 passing tests advancing a timed+rep workout through rounds to completion.
+
+2026-07-19  Session E — Workout builder (phone)
+  - Built src/phone/builder/: LibraryBrowser (equipment/no-kit/target/exclusion
+    filters over the library queries), BlockList (add, reorder, remove,
+    duplicate; per-block mode + value + rest-after override), TimingPanel
+    (global work/rest/restBetweenRounds), TemplatePanel (save/load/delete named
+    templates), all composed in WorkoutBuilder.tsx and wired into PhoneScreen.
+  - Added src/db/templates.ts, a minimal IndexedDB wrapper (put/getAll/delete)
+    for saved Workout templates — first real use of src/db.
+  - Verified end-to-end in a live browser (Playwright): filtered to no-kit
+    mode, added/reordered/duplicated blocks, edited global timing, ran
+    "Validate & serialise" (produced a valid Workout, flattened cleanly via
+    flattenWorkout with no console errors), and round-tripped a saved
+    template through IndexedDB. npm test still 25/25 passing; tsc -b clean.
