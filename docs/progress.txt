@@ -64,3 +64,24 @@ GymSync progress log
   - Verified live in a browser: saved a profile (28/female/65kg), ran a
     3-block bodyweight session end to end, got a plausible 7.6 kcal estimate
     with no console errors. npm test 30/30 passing; tsc -b clean.
+
+2026-07-19  Session G — Phone session player
+  - Added src/phone/session/SessionPlayer.tsx: runs a Workout live through
+    WorkoutEngine (real 1s ticker), showing current exercise/circuit name,
+    work vs. rest phase, remaining time (or rep target for reps blocks),
+    round x/y, and up-next. Remote controls: pause/resume toggle, skip, back,
+    +10s, end; a Done button appears in place of the clock for reps blocks
+    and calls engine.done() to advance. On completion shows a summary
+    (duration, blocks completed, MET-based estimated kcal via
+    withEstimatedCalories) with a "Back to builder" exit.
+  - WorkoutBuilder gained a "Play this workout" button (reuses the same
+    validation as "Validate & serialise") that hands the built Workout up to
+    PhoneScreen, which now toggles between the builder and the live player.
+  - Renamed ProfileForm's field-row wrapper off the shared `timing-row` class
+    (harmless in the app — labels disambiguate visually — but was ambiguous
+    for CSS-selector-driven browser testing).
+  - Verified live in a browser with real timers: set global work/rest to
+    2s/1s, ran a 3-block workout (2 timed + 1 reps) through pause, +10s,
+    back, and skip/done controls to natural completion — correct phase/
+    round/up-next display throughout, 6s duration, 3 blocks completed, 1.1
+    kcal estimate, no console errors. npm test 30/30 passing; tsc -b clean.

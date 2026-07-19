@@ -11,7 +11,11 @@ import { newLocalId, type BuilderBlock } from './types'
 
 const DEFAULT_TIMING: TimingDefaults = { work: 30, rest: 15, restBetweenRounds: 30 }
 
-export default function WorkoutBuilder() {
+interface Props {
+  onPlay: (workout: Workout) => void
+}
+
+export default function WorkoutBuilder({ onPlay }: Props) {
   const [workoutId, setWorkoutId] = useState(newLocalId)
   const [name, setName] = useState('My Workout')
   const [defaults, setDefaults] = useState<TimingDefaults>(DEFAULT_TIMING)
@@ -82,11 +86,15 @@ export default function WorkoutBuilder() {
     setValidation(`Loaded "${workout.name}".`)
   }
 
+  const validateWorkout = (workout: Workout): void => {
+    if (!workout.name.trim()) throw new Error('Workout needs a name.')
+    if (workout.items.length === 0) throw new Error('Add at least one block.')
+  }
+
   const handleTest = () => {
     try {
       const workout = buildWorkout()
-      if (!workout.name.trim()) throw new Error('Workout needs a name.')
-      if (workout.items.length === 0) throw new Error('Add at least one block.')
+      validateWorkout(workout)
       const phases = flattenWorkout(workout)
       const workPhases = phases.filter((p) => p.type === 'work').length
       console.log('Serialised workout:', workout)
@@ -95,6 +103,16 @@ export default function WorkoutBuilder() {
         `Valid Workout — ${workout.items.length} block(s), ${workPhases} work phase(s), ` +
           `${phases.length} total timeline entries. Logged to console.`,
       )
+    } catch (err) {
+      setValidation(`Invalid: ${err instanceof Error ? err.message : String(err)}`)
+    }
+  }
+
+  const handlePlay = () => {
+    try {
+      const workout = buildWorkout()
+      validateWorkout(workout)
+      onPlay(workout)
     } catch (err) {
       setValidation(`Invalid: ${err instanceof Error ? err.message : String(err)}`)
     }
@@ -129,6 +147,7 @@ export default function WorkoutBuilder() {
 
       <section className="panel">
         <button type="button" onClick={handleTest}>Validate &amp; serialise</button>
+        <button type="button" onClick={handlePlay}>Play this workout</button>
         {validation && <p className="muted">{validation}</p>}
       </section>
 

@@ -29,7 +29,7 @@ export default function ProfileForm({ onSaved }: Props) {
   return (
     <section className="panel">
       <h2>Profile</h2>
-      <div className="timing-row">
+      <div className="field-row">
         <label className="inline-field">
           age
           <input
