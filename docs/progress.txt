@@ -46,3 +46,21 @@ GymSync progress log
     "Validate & serialise" (produced a valid Workout, flattened cleanly via
     flattenWorkout with no console errors), and round-tripped a saved
     template through IndexedDB. npm test still 25/25 passing; tsc -b clean.
+
+2026-07-19  Session F — Profile + calorie estimation
+  - Added src/engine/calories.ts: estimateCalories/withEstimatedCalories, MET
+    x weight(kg) x duration(hours) summed across completed blocks. Stays
+    content-agnostic (caller supplies a metLookup) like the rest of the
+    engine; reps-mode blocks estimate duration via a documented
+    seconds-per-rep assumption since the engine only records rep counts for
+    them. 5 new unit tests incl. a plausibility band for a mixed session.
+  - Refactored src/db into a shared db.ts (bumped to v2) so a new `profile`
+    object store sits alongside `templates`; added src/db/profile.ts
+    (save/loadProfile) for age/sex/weightKg.
+  - New phone UI: ProfileForm (src/phone/profile/) captures + persists the
+    profile; RunSampleSession (src/phone/session/) fast-forwards the current
+    builder workout through WorkoutEngine to completion and displays the
+    estimated kcal burn via withEstimatedCalories, wired into WorkoutBuilder.
+  - Verified live in a browser: saved a profile (28/female/65kg), ran a
+    3-block bodyweight session end to end, got a plausible 7.6 kcal estimate
+    with no console errors. npm test 30/30 passing; tsc -b clean.

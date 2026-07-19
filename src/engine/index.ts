@@ -7,6 +7,8 @@ export type {
   WorkoutItem,
 } from './workout';
 export type { CompletedBlock, SessionResult } from './session';
+export { estimateCalories, withEstimatedCalories } from './calories';
+export type { MetLookup } from './calories';
 export { flattenWorkout } from './timeline';
 export type { Phase, RestPhase, RestReason, WorkPhase } from './timeline';
 export { WorkoutEngine } from './engine';

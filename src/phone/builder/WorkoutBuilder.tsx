@@ -4,6 +4,7 @@ import { flattenWorkout } from '../../engine'
 import { seedExercises } from '../../library'
 import BlockList from './BlockList'
 import LibraryBrowser from './LibraryBrowser'
+import RunSampleSession from '../session/RunSampleSession'
 import TemplatePanel from './TemplatePanel'
 import TimingPanel from './TimingPanel'
 import { newLocalId, type BuilderBlock } from './types'
@@ -130,6 +131,8 @@ export default function WorkoutBuilder() {
         <button type="button" onClick={handleTest}>Validate &amp; serialise</button>
         {validation && <p className="muted">{validation}</p>}
       </section>
+
+      <RunSampleSession buildWorkout={buildWorkout} />
 
       <TemplatePanel buildWorkout={buildWorkout} onLoad={loadWorkout} />
     </div>

@@ -231,3 +231,20 @@ input[type='number'] {
 button {
   cursor: pointer;
 }
+
+.session-summary {
+  margin-top: 0.75rem;
+  background: #0f172a;
+  border-radius: 0.5rem;
+  padding: 0.6rem;
+}
+
+.session-summary p {
+  margin: 0.2rem 0;
+}
+
+.session-summary .kcal {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #4ade80;
+}
